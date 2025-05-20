@@ -1,0 +1,66 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Tarifas por Tiempo (Personalizadas por el Administrador)</h2>
+
+  <table class="table table-bordered table-striped" *ngIf="tarifasPorTiempo.length > 0; else sinTarifas">
+    <thead>
+      <tr>
+        <th>Tipo de Vehículo</th>
+        <th>Diurna</th>
+        <th>Nocturna</th>
+        <th>Fines de Semana / Festivos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tarifa of tarifasPorTiempo">
+        <td>{{ tarifa.tipoVehiculo }}</td>
+        <td>{{ tarifa.diurna | currency:'COP' }}</td>
+        <td>{{ tarifa.nocturna | currency:'COP' }}</td>
+        <td>{{ tarifa.finesSemanaFestivos | currency:'COP' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #sinTarifas>
+    <p class="text-muted">No hay tarifas registradas actualmente.</p>
+  </ng-template>
+
+  <h2 class="mt-5 mb-4">Tarifa por Hora y Minutos</h2>
+  <table class="table table-bordered table-striped" *ngIf="tarifasPorHoraMinutos.length > 0; else sinTarifasHora">
+    <thead>
+      <tr>
+        <th>Tipo de Vehículo</th>
+        <th>Por Hora</th>
+        <th>Por Minuto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tarifa of tarifasPorHoraMinutos">
+        <td>{{ tarifa.tipoVehiculo }}</td>
+        <td>{{ tarifa.porHora | currency:'COP' }}</td>
+        <td>{{ tarifa.porMinuto | currency:'COP' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #sinTarifasHora>
+    <p class="text-muted">No hay tarifas por hora y minutos registradas actualmente.</p>
+  </ng-template>
+
+  <h2 class="mt-5 mb-4">Tarifas Mensuales</h2>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Tipo de Vehículo</th>
+        <th>Plan</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tarifa of tarifasMensualidad">
+        <td>{{ tarifa.tipoVehiculo }}</td>
+        <td>{{ tarifa.mensualidad }}</td>
+        <td>{{ tarifa.valor | currency:'COP' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

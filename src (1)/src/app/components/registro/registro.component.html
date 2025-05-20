@@ -1,0 +1,75 @@
+<div class="container mt-4">
+  <h2>{{ editando ? 'Editar Usuario' : 'Registrar Usuario' }}</h2>
+
+  <form (ngSubmit)="guardarUsuario()">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" id="nombre" class="form-control" [(ngModel)]="usuario.nombre" name="nombre" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="correo" class="form-label">Correo</label>
+      <input type="email" id="correo" class="form-control" [(ngModel)]="usuario.correo" name="correo" required>
+      <div *ngIf="correoInvalido" class="text-danger">Debe ser un correo gmail.com</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="contrasena" class="form-label">Contraseña</label>
+      <div class="input-group">
+        <input [type]="mostrarContrasena ? 'text' : 'password'" id="contrasena" class="form-control" [(ngModel)]="usuario.contrasena" name="contrasena" required>
+        <button type="button" class="btn btn-outline-secondary" (click)="toggleMostrarContrasena()">
+          {{ mostrarContrasena ? 'Ocultar' : 'Mostrar' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="telefono" class="form-label">Teléfono</label>
+      <input type="text" id="telefono" class="form-control" [(ngModel)]="usuario.telefono" name="telefono" required>
+      <div *ngIf="telefonoInvalido" class="text-danger">El teléfono debe tener 10 dígitos numéricos</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="rol" class="form-label">Rol</label>
+      <select id="rol" class="form-select" [(ngModel)]="usuario.rol" name="rol" required>
+        <option value="" disabled selected>Seleccione un rol</option>
+        <option value="admin">Administrador</option>
+        <option value="cliente">Cliente</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ editando ? 'Actualizar' : 'Registrar' }}</button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="resetFormulario()" *ngIf="editando">Cancelar</button>
+  </form>
+
+  <hr>
+
+  <h3>Lista de Usuarios</h3>
+  <table class="table table-bordered table-hover mt-3" *ngIf="usuarios.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of usuarios; let i = index">
+        <td>{{ u.nombre }}</td>
+        <td>{{ u.correo }}</td>
+        <td>{{ u.telefono }}</td>
+        <td>{{ u.rol }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm me-2" (click)="editarUsuario(i)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="eliminarUsuario(i)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="usuarios.length === 0" class="text-muted mt-3">
+    No hay usuarios registrados.
+  </div>
+</div>

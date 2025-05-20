@@ -1,0 +1,80 @@
+<div class="container mt-5">
+    <div class="card p-4 shadow rounded">
+      <h2 class="text-center mb-4">Reserva tu espacio</h2>
+  
+      <form (ngSubmit)="reservarEspacio()">
+        <!-- Tipo de vehículo -->
+        <div class="mb-3">
+          <label class="form-label">Tipo de Vehículo</label>
+          <input type="text" class="form-control mb-2" placeholder="Ej: Carro, moto"
+                 [(ngModel)]="reserva.tipoVehiculo" name="tipoVehiculo">
+          <input *ngIf="reserva.tipoVehiculo" type="text" class="form-control"
+                 placeholder="Placa del vehículo"
+                 [(ngModel)]="reserva.placa" name="placa">
+        </div>
+  
+        <!-- Vehículo personalizado -->
+        <div class="mb-3">
+          <label class="form-label">Vehículo Personalizado</label>
+          <input type="text" class="form-control mb-2"
+                 placeholder="Ej: Patineta eléctrica, unicornio"
+                 [(ngModel)]="reserva.vehiculoPersonalizado" name="vehiculoPersonalizado">
+          <input *ngIf="reserva.vehiculoPersonalizado" type="text" class="form-control"
+                 placeholder="Placa del vehículo"
+                 [(ngModel)]="reserva.placa" name="placaPersonalizado">
+        </div>
+  
+        <!-- Horas -->
+        <div class="mb-3">
+          <label class="form-label">Hora estimada de llegada</label>
+          <input type="datetime-local" class="form-control"
+                 [(ngModel)]="reserva.horaEntrada" name="horaEntrada" required>
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Hora estimada de salida</label>
+          <input type="datetime-local" class="form-control"
+                 [(ngModel)]="reserva.horaSalida" name="horaSalida" required>
+        </div>
+  
+        <button class="btn btn-primary w-100" type="submit">Reservar</button>
+      </form>
+    </div>
+  
+    <!-- Mostrar espacio disponible del vehículo reservado -->
+    <div *ngIf="mostrarEspacios && espacioReservado" class="card mt-4 p-4 shadow-sm border border-info">
+      <h4 class="text-info">Espacio Disponible</h4>
+      <div class="mb-1">
+        <span [ngClass]="{
+          'bg-verde-claro text-dark p-1 rounded': espacioReservado.disponible,
+          'badge bg-danger': !espacioReservado.disponible
+        }">
+          Espacio disponible: {{ espacioReservado.disponible ? 'Sí' : 'No' }}
+        </span>
+        <strong class="ms-2">{{ espacioReservado.tipo }}</strong>
+      </div>
+    </div>
+  
+    <!-- Mostrar la última reserva -->
+    <div *ngIf="ultimaReserva" class="card mt-4 p-4 shadow-sm border border-success">
+      <h4 class="text-success">
+        {{ tipoReserva === 'tipo' ? 'Reserva de tipo de vehículo' : 'Reserva de vehículo personalizado' }}
+      </h4>
+  
+      <ng-container *ngIf="tipoReserva === 'tipo'">
+        <p><strong>Tipo de vehículo:</strong> {{ ultimaReserva.tipoVehiculo }}</p>
+      </ng-container>
+  
+      <ng-container *ngIf="tipoReserva === 'personalizada'">
+        <p><strong>Vehículo personalizado:</strong> {{ ultimaReserva.vehiculoPersonalizado }}</p>
+      </ng-container>
+  
+      <p><strong>Placa:</strong> {{ ultimaReserva.placa }}</p>
+      <p><strong>Hora de entrada:</strong> {{ formatFecha(ultimaReserva.horaEntrada) }}</p>
+      <p><strong>Hora de salida:</strong> {{ formatFecha(ultimaReserva.horaSalida) }}</p>
+      <p><strong>Duración:</strong> {{ duracionReserva }}</p>
+      <p><strong>Costo estimado:</strong> ${{ costoEstimado }}</p>
+      <p><strong>Espacio asignado:</strong> #{{ numeroEspacio }}</p>
+    </div>
+  </div>
+  

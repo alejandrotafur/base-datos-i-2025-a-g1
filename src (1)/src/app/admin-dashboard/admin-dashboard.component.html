@@ -1,0 +1,341 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Panel de Administración</h2>
+
+  <!-- Formulario para calcular tarifa -->
+  <div class="card p-4 mb-4">
+    <h4>Calcular Tarifa para un Vehículo</h4>
+
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label>Tipo de Vehículo:</label>
+        <input
+          type="text"
+          [(ngModel)]="tipoSeleccionado"
+          class="form-control"
+          placeholder="Ej. Carro, Moto..."
+        />
+      </div>
+
+      <div class="col-md-3">
+        <label>Placa:</label>
+        <input
+          type="text"
+          [(ngModel)]="placa"
+          class="form-control"
+          placeholder="Ej. ABC123"
+        />
+      </div>
+
+      <div class="col-md-3">
+        <label>Hora de Entrada:</label>
+        <input type="time" [(ngModel)]="horaEntrada" class="form-control" />
+      </div>
+
+      <div class="col-md-3">
+        <label>Hora de Salida:</label>
+        <input type="time" [(ngModel)]="horaSalida" class="form-control" />
+      </div>
+    </div>
+
+    <div class="d-flex gap-3">
+      <button class="btn btn-primary" (click)="calcularPrecio()">Calcular Tarifa</button>
+      <button class="btn btn-secondary" (click)="limpiarFormulario()">Limpiar</button>
+    </div>
+
+    <div *ngIf="precioCalculado !== null" class="mt-3 alert alert-success">
+      <strong>Precio calculado:</strong>
+      {{ precioCalculado | currency: 'COP' : 'symbol' : '1.0-2' }} <br />
+      <small>{{ detalleCalculo }}</small>
+    </div>
+  </div>
+
+  <!-- Tabla Editable para Vehículos Registrados -->
+  <div *ngIf="registrosTemporales.length > 0" class="card p-4 mb-4">
+    <h5>Vehículos Registrados</h5>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm">
+        <thead class="thead-light">
+          <tr>
+            <th>Tipo</th>
+            <th>Placa</th>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
+            <th>Precio</th>
+            <th>Detalle</th>
+            <th>Fecha/Hora Registro</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let registro of registrosTemporales; let i = index">
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="registro.tipo"
+                class="form-control form-control-sm"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="registro.placa"
+                class="form-control form-control-sm"
+              />
+            </td>
+            <td>
+              <input
+                type="time"
+                [(ngModel)]="registro.horaEntrada"
+                class="form-control form-control-sm"
+              />
+            </td>
+            <td>
+              <input
+                type="time"
+                [(ngModel)]="registro.horaSalida"
+                class="form-control form-control-sm"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                [(ngModel)]="registro.precio"
+                class="form-control form-control-sm"
+                disabled
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                [(ngModel)]="registro.detalle"
+                class="form-control form-control-sm"
+                disabled
+              />
+            </td>
+            <td>{{ registro.timestamp }}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="eliminarRegistroTemporal(i)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Formulario para agregar nueva tarifa -->
+  <div class="card p-4 mb-4">
+    <h4>Agregar Nueva Tarifa Personalizada</h4>
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label>Tipo de Vehículo:</label>
+        <input
+          type="text"
+          [(ngModel)]="nuevaTarifa.tipoVehiculo"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-3">
+        <label>Diurna ($/h):</label>
+        <input
+          type="number"
+          [(ngModel)]="nuevaTarifa.diurna"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-3">
+        <label>Nocturna ($/h):</label>
+        <input
+          type="number"
+          [(ngModel)]="nuevaTarifa.nocturna"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-3">
+        <label>Fines de Semana/Festivos ($/h):</label>
+        <input
+          type="number"
+          [(ngModel)]="nuevaTarifa.finesSemanaFestivos"
+          class="form-control"
+        />
+      </div>
+    </div>
+
+    <button class="btn btn-success" (click)="agregarTarifa()">Agregar Tarifa</button>
+  </div>
+
+  <!-- Gestión de Tarifas por Tipo de Vehículo -->
+  <div class="card p-4 mb-4">
+    <h4>Gestión de Tarifas por Tipo de Vehículo Personalizadas</h4>
+    <table class="table table-bordered table-sm mt-3">
+      <thead class="thead-dark">
+        <tr>
+          <th>Tipo</th>
+          <th>Diurna</th>
+          <th>Nocturna</th>
+          <th>Fines de Semana/Festivos</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tarifa of tarifasPorTiempo">
+          <td>{{ tarifa.tipoVehiculo }}</td>
+          <td>{{ tarifa.diurna | currency: 'COP' : 'symbol' : '1.0-2' }}</td>
+          <td>{{ tarifa.nocturna | currency: 'COP' : 'symbol' : '1.0-2' }}</td>
+          <td>{{ tarifa.finesSemanaFestivos | currency: 'COP' : 'symbol' : '1.0-2' }}</td>
+          <td>
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="eliminarTarifa(tarifa.tipoVehiculo)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gestión de Reservas Manual -->
+  <div class="card p-4 mb-4">
+    <h4>Agregar Reserva Manualmente</h4>
+    <div class="form-row mb-3 d-flex align-items-center">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Placa"
+          [(ngModel)]="nuevaReserva.placa"
+        />
+      </div>
+      <div class="col-md-3 mb-2 mb-md-0">
+        <select
+          class="form-control"
+          [(ngModel)]="nuevaReserva.tipo"
+          (change)="onTipoVehiculoChange()"
+        >
+          <option value="">Tipo Vehículo</option>
+          <option value="Carro">Carro</option>
+          <option value="Moto">Moto</option>
+          <option value="Camioneta">Camioneta</option>
+          <option value="Bus">Bus</option>
+          <option value="Bicicleta">Bicicleta</option>
+          <option value="Personalizado">Personalizado</option>
+        </select>
+      </div>
+
+      <!-- Campo para tipo personalizado -->
+      <div
+        class="col-md-3 mb-2 mb-md-0"
+        *ngIf="mostrarVehiculoPersonalizado"
+      >
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Tipo de vehículo personalizado"
+          [(ngModel)]="nuevaReserva.tipoPersonalizado"
+        />
+      </div>
+
+      <div class="col-md-3 mb-2 mb-md-0">
+        <input
+          type="time"
+          class="form-control"
+          [(ngModel)]="nuevaReserva.horaEntrada"
+        />
+      </div>
+
+      <div class="col-md-2">
+        <button
+          class="btn btn-success btn-block"
+          (click)="agregarReservaManual()"
+        >
+          Agregar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de Reservas Actuales -->
+  <div class="card p-4 mb-4">
+    <h4>Reservas Actuales</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm">
+        <thead class="thead-light">
+          <tr>
+            <th>ID</th>
+            <th>Placa</th>
+            <th>Tipo</th>
+            <th>Hora Entrada</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reserva of reservasActuales">
+            <td>{{ reserva.id }}</td>
+            <td>{{ reserva.placa }}</td>
+            <td>{{ reserva.tipo }}</td>
+            <td>{{ reserva.horaEntrada }}</td>
+            <td>
+              <button
+                class="btn btn-sm"
+                [ngClass]="reserva.estado ? 'btn-success' : 'btn-secondary'"
+                (click)="alternarEstado(reserva)"
+              >
+                {{ reserva.estado ? 'Activa' : 'Inactiva' }}
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn btn-primary btn-sm"
+                (click)="moverAHistorial(reserva)"
+              >
+                Mover a Historial
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tabla de Historial de Reservas -->
+  <div class="card p-4 mb-4">
+    <h4>Historial de Reservas</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm">
+        <thead class="thead-light">
+          <tr>
+            <th>ID</th>
+            <th>Placa</th>
+            <th>Tipo</th>
+            <th>Hora Entrada</th>
+            <th>Hora Salida</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reserva of historialReservas">
+            <td>{{ reserva.id }}</td>
+            <td>{{ reserva.placa }}</td>
+            <td>{{ reserva.tipo }}</td>
+            <td>{{ reserva.horaEntrada }}</td>
+            <td>{{ reserva.horaSalida }}</td>
+            <td>{{ reserva.precio | currency: 'COP' : 'symbol' : '1.0-0' }}</td>
+            <td>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="eliminarHistorial(reserva.id)"
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

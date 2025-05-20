@@ -1,0 +1,65 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Facturación</h2>
+
+  <div class="card p-4 bg-light mx-auto" style="max-width: 600px;">
+    <div class="mb-3">
+      <label>Nombre del Cliente</label>
+      <input type="text" class="form-control" [(ngModel)]="nombreCliente">
+    </div>
+
+    <div class="mb-3">
+      <label>Placa del Vehículo</label>
+      <input type="text" class="form-control" [(ngModel)]="placaVehiculo">
+    </div>
+
+    <div class="mb-3">
+      <label>Tipo de Vehículo</label>
+      <select class="form-control" [(ngModel)]="tipoVehiculo" (change)="calcularTotal()">
+        <option value="">-- Selecciona --</option>
+        <option *ngFor="let tipo of Object.keys(tarifasPorHora)" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Vehículo Personalizado</label>
+      <input type="text" class="form-control" [(ngModel)]="vehiculoPersonalizado" placeholder="Ej: Caballo, Unicornio" (input)="tipoVehiculo = ''; calcularTotal()">
+      <small class="text-muted">Si se ingresa aquí, se ignorará el tipo de vehículo seleccionado.</small>
+    </div>
+
+    <div class="mb-3">
+      <label>Horas de Estadía</label>
+      <input type="number" class="form-control" [(ngModel)]="horasEstadia" (input)="calcularTotal()">
+    </div>
+
+    <div class="mb-3 fw-bold">
+      Total: COP{{ total.toLocaleString() }}
+    </div>
+    <button class="btn btn-primary" (click)="generarFactura()">Generar Factura</button>
+  </div>
+
+  <div class="mt-5" *ngIf="facturas.length > 0">
+    <h4>Facturas Generadas</h4>
+    <table class="table table-striped table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Fecha</th>
+          <th>Cliente</th>
+          <th>Placa</th>
+          <th>Vehículo</th>
+          <th>Horas</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of facturas">
+          <td>{{ f.fecha }}</td>
+          <td>{{ f.cliente }}</td>
+          <td>{{ f.placa }}</td>
+          <td>{{ f.tipo }}</td>
+          <td>{{ f.horas }}</td>
+          <td>COP{{ f.total.toLocaleString() }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

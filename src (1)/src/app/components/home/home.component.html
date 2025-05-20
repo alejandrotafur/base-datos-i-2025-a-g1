@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urban Park - Parqueadero</title>
+  <!-- Agregar Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Estilos generales */
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* Fondo de la página */
+    .hero-section {
+      background: url('https://images.unsplash.com/photo-1565242052-ecc55ec4977a') no-repeat center center;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      background-attachment: fixed;
+    }
+
+    /* Texto central */
+    .hero-text {
+      max-width: 600px;
+      padding: 30px;
+      background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para mejorar legibilidad */
+      border-radius: 10px;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .hero-text p {
+      font-size: 1.25rem;
+      margin-bottom: 30px;
+    }
+
+    .btn-custom {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+      background-color: #0056b3;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Sección de características del parqueadero */
+    .features-section {
+      background-color: #f8f9fa;
+      padding: 60px 0;
+    }
+
+    .features-section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+
+    .feature-card {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .feature-card h4 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .feature-card p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Estilo de botones adicionales */
+    .btn-info-custom {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      border-radius: 5px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .btn-info-custom:hover {
+      background-color: #218838;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sección principal (Hero) -->
+  <section class="hero-section">
+    <div class="hero-text">
+      <h1>Bienvenidos a Urban Park</h1>
+      <p>Encuentra tu lugar de parqueo fácil y rápido, ¡sin complicaciones!</p>
+      <a href="/servicios" class="btn btn-custom">Descubre nuestros servicios</a>
+    </div>
+  </section>
+
+  <!-- Sección de características del parqueadero -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <h2>Servicios que ofrecemos</h2>
+
+      <div class="row">
+        <!-- Característica 1 -->
+        <div class="col-md-4">
+          <div class="feature-card text-center">
+            <h4>Espacios Disponibles</h4>
+            <p>Consulta la disponibilidad en tiempo real y asegura tu lugar de parqueo de forma rápida y sencilla.</p>
+          </div>
+        </div>
+
+        <!-- Característica 2 -->
+        <div class="col-md-4">
+          <div class="feature-card text-center">
+            <h4>Precios Asequibles</h4>
+            <p>Ofrecemos tarifas competitivas, adaptadas a tus necesidades, con opciones de pago flexibles.</p>
+          </div>
+        </div>
+
+        <!-- Característica 3 -->
+        <div class="col-md-4">
+          <div class="feature-card text-center">
+            <h4>Reserva Online</h4>
+            <p>Reserva tu espacio de parqueo con antelación y olvídate de las preocupaciones.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de botón de Google Maps -->
+  <section class="container text-center py-5">
+    <h2>Ubicación</h2>
+    <p>Encuentra el parqueadero más cercano a ti utilizando el siguiente enlace.</p>
+    <a href="https://www.google.com/maps" class="btn btn-info-custom">Ver en Google Maps</a>
+  </section>
+
+  <!-- Agregar Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

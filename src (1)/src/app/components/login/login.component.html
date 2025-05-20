@@ -1,0 +1,53 @@
+<div class="container-fluid full-height d-flex justify-content-center align-items-center">
+  <div class="card shadow-sm p-4" style="max-width: 400px; width: 100%;">
+    <h2 class="text-center mb-4">Iniciar Sesión</h2>
+
+    <form (ngSubmit)="iniciarSesion()" #loginForm="ngForm">
+      <!-- Correo -->
+      <div class="form-group mb-3">
+        <label for="correo">Correo electrónico</label>
+        <input 
+          type="email"
+          class="form-control"
+          id="correo"
+          name="correo"
+          [(ngModel)]="credentials.correo"
+          required
+          [class.is-invalid]="correoInvalido"
+        >
+        <div class="invalid-feedback">
+          El correo debe terminar en gmail.com.
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group mb-3">
+        <label for="password">Contraseña</label>
+        <div class="input-group">
+          <input
+            [type]="mostrarContrasena ? 'text' : 'password'"
+            class="form-control"
+            id="password"
+            name="password"
+            [(ngModel)]="credentials.contrasena"
+            required
+          >
+          <div class="input-group-append">
+            <span class="input-group-text eye-icon" (click)="toggleMostrarContrasena()">
+              <i [ngClass]="mostrarContrasena ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Olvidaste -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <a [routerLink]="['/recuperar']" class="small text-muted">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <!-- Botón -->
+      <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+    </form>
+  </div>
+</div>
+ 
